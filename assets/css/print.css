@@ -1,0 +1,47 @@
+.print{
+    border: 1px solid black;
+    margin: 3rem;
+    padding: 3rem;
+    border-radius: 2rem ;
+    display: none;
+}
+
+.print .title{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid black;
+    
+}
+
+.print .title::before{
+    content:'';
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: contain ;
+    background-image: url('/assets/utils/Logo_Francauto.png');
+    position: relative;
+    width: 5rem;
+    height: 5rem;
+    margin: auto;
+    border-radius: 5rem;
+   
+    
+}
+
+.print .assinatura{
+    border-top: 1px solid black;
+    text-align: center;
+  
+}
+@media print{
+    .print{
+        display: block;
+    }
+    .header{
+        display: none;
+    }
+    .main{
+        display: none;
+    }
+}

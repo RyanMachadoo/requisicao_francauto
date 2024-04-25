@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/print.css">
+    <title>Requisição Virtual Francauto</title>
+</head>
+<body>
+    <header class="header">
+        <h1>Requisição Virtual Francauto</h1>
+    </header>
+    <main class="main">
+        <h3>Preencha as informações a baixo: </h3>
+     
+            <p>Nome Do Solicitante</p>
+            <input type="text" id="comprador"> <br>
+            <p>Descreva os itens da compra</p>
+            <input type="text" id="itens"> <br>
+            <p>Valor da compra em R$</p>
+            <input type="number" id="valor"> <br>
+            <p>Departamento de debito (Porcentagem / Nome do DP)</p>
+            <input type="text" id="dep"> 
+            <br>
+            <button type="button" onclick="gerarRequisacao()">Gerar Requisição</button>
+    </main>
+
+    <div class="print" id="print">
+        <h1 class="title">Requisição Virtual Francauto</h1>
+        <p>Data: <span id="data_print"></span></p>
+        <p>Comprador: <br><span id="comprador_print"></span></p>
+        <p>Itens Do Pedido: <br><span id="itens_print"></span></p>
+        <p>Valor (R$): <br><span id="valor_print"> </span></p>
+        <p> Departamento de debito: <br><span id="dep_print"></span></p><br>
+
+        <p>Diretor Aprovador</p>
+        <p class="assinatura">Assinatura: </p><br>
+        <p>Gerente Aprovador</p>
+        <p class="assinatura">Assinatura: </p>
+
+    </div>
+    <script>function gerarRequisacao(){
+        document.getElementById('comprador_print').innerHTML = document.getElementById('comprador').value;
+        document.getElementById('itens_print').innerHTML = document.getElementById('itens').value;
+        document.getElementById('valor_print').innerHTML = 'R$' + document.getElementById('valor').value ;
+        document.getElementById('dep_print').innerHTML = document.getElementById('dep').value;
+        document.getElementById('data_print').innerHTML = dataAtual()
+   
+        window.print()
+
+        function dataAtual(){
+            const data = new Date()
+            return data.getDate() + "/" + (data.getMonth() +1) + "/" + data.getFullYear()
+        }
+    }</script>
+
+</body>
+</html>

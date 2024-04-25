@@ -1,0 +1,26 @@
+.header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: blue;
+    margin-bottom: 1rem;
+}
+.header h1{
+    font-style: italic;
+    background-color: blue;
+    color: white;
+}
+
+.header h1::before{
+    content:'';
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: contain ;
+    background-image: url('/assets/utils/Logo_Francauto.png');
+    position: absolute;
+    width: 6rem;
+    height: 6rem;
+    left: 2rem;
+    border-radius: 5rem;
+    margin: 2rem;
+}
