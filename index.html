@@ -3,59 +3,414 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/assets/css/header.css">
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="stylesheet" href="/assets/css/global.css">
-    <link rel="stylesheet" href="/assets/css/print.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Requisição Virtual Francauto</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+            padding: 20px;
+        }
+
+        .header, .print, .main {
+            width: 100%;
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .header:hover, .main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .print {
+            display: none; /* Inicialmente escondida */
+        }
+
+        .img-preview, .pdf-preview {
+            width: 250px;
+            height: 250px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            display: inline-block;
+            vertical-align: middle;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: #f9f9f9;
+        }
+
+        .img-preview img, .pdf-preview a {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .img-preview:hover, .pdf-preview:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        button {
+            width: 100%;
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .budget-values, .approval-options {
+            margin-bottom: 15px;
+        }
+
+        .budget-values input {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .approval-options {
+            margin-bottom: 15px;
+        }
+
+        .approval-options label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .approval-options input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .department-percents {
+            margin-bottom: 15px;
+        }
+
+        .department-percents .form-check {
+            margin-bottom: 10px;
+        }
+
+        .department-percents input[type="number"] {
+            width: 100px;
+            margin-left: 10px;
+        }
+
+        .assinatura-line {
+            margin-top: 30px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .assinatura-line div {
+            width: 48%;
+        }
+
+        .assinatura-line p {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .assinatura {
+            border-top: 1px solid #ddd;
+            padding-top: 5px;
+            margin-top: 5px;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                font-size: 12px;
+                line-height: 1.4;
+            }
+
+            .header, .main {
+                display: none;
+            }
+
+            .print {
+                display: block;
+                width: 100%;
+                padding: 10px;
+                box-sizing: border-box;
+                font-size: 12px;
+                line-height: 1.6;
+            }
+
+            .print h1 {
+                font-size: 20px;
+                margin-bottom: 15px;
+                text-align: center;
+            }
+
+            .print p {
+                margin: 8px 0;
+            }
+
+            .print .budget-values,
+            .print .approval-options {
+                margin-bottom: 10px;
+            }
+
+            .img-preview, .pdf-preview {
+                width: 100%;
+                height: auto;
+                max-height: 150px;
+                margin-bottom: 10px;
+                display: block;
+            }
+
+            .print div#orcamento_print {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .print .approval-options {
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+                flex-direction: column;
+            }
+
+            .print .approval-options label {
+                display: inline-block;
+                margin-right: 10px;
+            }
+
+            .print .approval-options input[type="checkbox"] {
+                width: 16px;
+                height: 16px;
+            }
+
+            .assinatura-line {
+                margin-top: 20px;
+                border-top: 1px solid #ddd;
+                padding-top: 10px;
+                display: flex;
+                justify-content: space-between;
+                font-size: 12px;
+                font-family: 'Roboto', sans-serif;
+            }
+
+            .assinatura-line div {
+                width: 48%;
+            }
+
+            .assinatura-line p {
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .assinatura-line .assinatura {
+                height: 40px;
+                margin-top: 5px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header class="header">
+    <header class="header text-center">
         <h1>Requisição Virtual Francauto</h1>
     </header>
     <main class="main">
-        <h3>Preencha as informações a baixo: </h3>
-     
-            <p>Nome Do Solicitante</p>
-            <input type="text" id="comprador"> <br>
-            <p>Descreva os itens da compra</p>
-            <input type="text" id="itens"> <br>
-            <p>Valor da compra em R$</p>
-            <input type="number" id="valor"> <br>
-            <p>Departamento de debito (Porcentagem / Nome do DP)</p>
-            <input type="text" id="dep"> 
-            <br>
-            <button type="button" onclick="gerarRequisacao()">Gerar Requisição</button>
+        <h3>Preencha as informações abaixo:</h3>
+        <form id="requestForm">
+            <div class="form-group">
+                <label for="comprador">Nome Do Solicitante</label>
+                <input type="text" class="form-control" id="comprador" placeholder="Digite seu nome" required>
+            </div>
+            <div class="form-group">
+                <label for="orcamento">Imagens do orçamento (mínimo 3)</label>
+                <input type="file" class="form-control-file" id="orcamento" accept="image/*,application/pdf" multiple required>
+            </div>
+            <div class="form-group">
+                <label for="itens">Descreva os itens da compra</label>
+                <input type="text" class="form-control" id="itens" placeholder="Itens da compra" required>
+            </div>
+            <div class="form-group">
+                <label for="valor">Valor Total em R$</label>
+                <input type="number" class="form-control" id="valor" placeholder="0.00" required>
+            </div>
+            <div class="form-group department-percents">
+                <label>Departamentos e porcentagens</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="dep_acessorios" value="Acessórios">
+                    <label class="form-check-label" for="dep_acessorios">Acessórios</label>
+                    <input type="number" class="form-control" placeholder="Porcentagem" id="perc_acessorios" min="0" max="100">
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="dep_ti" value="T.I.">
+                    <label class="form-check-label" for="dep_ti">T.I.</label>
+                    <input type="number" class="form-control" placeholder="Porcentagem" id="perc_ti" min="0" max="100">
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="dep_adm" value="Administração">
+                    <label class="form-check-label" for="dep_adm">Administração</label>
+                    <input type="number" class="form-control" placeholder="Porcentagem" id="perc_adm" min="0" max="100">
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="dep_mecanica" value="Mecânica">
+                    <label class="form-check-label" for="dep_mecanica">Mecânica</label>
+                    <input type="number" class="form-control" placeholder="Porcentagem" id="perc_mecanica" min="0" max="100">
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="dep_ass_tecnica" value="Assistência Técnica">
+                    <label class="form-check-label" for="dep_ass_tecnica">Assistência Técnica</label>
+                    <input type="number" class="form-control" placeholder="Porcentagem" id="perc_ass_tecnica" min="0" max="100">
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="dep_veiculos_novos" value="Veículos Novos">
+                    <label class="form-check-label" for="dep_veiculos_novos">Veículos Novos</label>
+                    <input type="number" class="form-control" placeholder="Porcentagem" id="perc_veiculos_novos" min="0" max="100">
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="dep_veiculos_usados" value="Veículos Usados">
+                    <label class="form-check-label" for="dep_veiculos_usados">Veículos Usados</label>
+                    <input type="number" class="form-control" placeholder="Porcentagem" id="perc_veiculos_usados" min="0" max="100">
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="dep_vendas" value="Vendas">
+                    <label class="form-check-label" for="dep_vendas">Vendas</label>
+                    <input type="number" class="form-control" placeholder="Porcentagem" id="perc_vendas" min="0" max="100">
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="gerarRequisicao()">Gerar Requisição</button>
+        </form>
     </main>
-
-    <div class="print" id="print">
-        <h1 class="title">Requisição Virtual Francauto</h1>
-        <p>Data: <span id="data_print"></span></p>
-        <p>Comprador: <br><span id="comprador_print"></span></p>
-        <p>Itens Do Pedido: <br><span id="itens_print"></span></p>
-        <p>Valor (R$): <br><span id="valor_print"> </span></p>
-        <p> Departamento de debito: <br><span id="dep_print"></span></p><br>
-
-        <p>Diretor Aprovador</p>
-        <p class="assinatura">Assinatura: </p><br>
-        <p>Gerente Aprovador</p>
-        <p class="assinatura">Assinatura: </p>
-
+    <div id="print" class="print">
+        <h1 class="text-center">Requisição Virtual Francauto</h1>
+        <p><strong>Nome do Solicitante:</strong> <span id="comprador_print"></span></p>
+        <p><strong>Itens:</strong> <span id="itens_print"></span></p>
+        <p><strong>Valor Total:</strong> <span id="valor_print"></span></p>
+        <p><strong>Data:</strong> <span id="data_print"></span></p>
+        <div id="orcamento_print" class="text-center mb-3"></div>
+        <div id="rateio_print" class="mb-3"></div>
+        <div class="assinatura-line">
+            <div>
+                <p><strong>Assinatura Gerente:</strong></p>
+                <div class="assinatura">____________________________________</div>
+                <p>Nome: _________________________________</p>
+            </div>
+            <div>
+                <p><strong>Assinatura Diretor:</strong></p>
+                <div class="assinatura">____________________________________</div>
+                <p>Nome: _________________________________</p>
+            </div>
+        </div>
     </div>
-    <script>function gerarRequisacao(){
-        document.getElementById('comprador_print').innerHTML = document.getElementById('comprador').value;
-        document.getElementById('itens_print').innerHTML = document.getElementById('itens').value;
-        document.getElementById('valor_print').innerHTML = 'R$' + document.getElementById('valor').value ;
-        document.getElementById('dep_print').innerHTML = document.getElementById('dep').value;
-        document.getElementById('data_print').innerHTML = dataAtual()
-   
-        window.print()
+    <script>
+        function gerarRequisicao() {
+            const comprador = document.getElementById('comprador').value;
+            const itens = document.getElementById('itens').value;
+            const valor = parseFloat(document.getElementById('valor').value);
+            const orcamento = document.getElementById('orcamento').files;
+            const departamentos = [
+                { id: 'dep_acessorios', percId: 'perc_acessorios', name: 'Acessórios' },
+                { id: 'dep_ti', percId: 'perc_ti', name: 'T.I.' },
+                { id: 'dep_adm', percId: 'perc_adm', name: 'Administração' },
+                { id: 'dep_mecanica', percId: 'perc_mecanica', name: 'Mecânica' },
+                { id: 'dep_ass_tecnica', percId: 'perc_ass_tecnica', name: 'Assistência Técnica' },
+                { id: 'dep_veiculos_novos', percId: 'perc_veiculos_novos', name: 'Veículos Novos' },
+                { id: 'dep_veiculos_usados', percId: 'perc_veiculos_usados', name: 'Veículos Usados' },
+                { id: 'dep_vendas', percId: 'perc_vendas', name: 'Vendas' }
+            ];
 
-        function dataAtual(){
-            const data = new Date()
-            return data.getDate() + "/" + (data.getMonth() +1) + "/" + data.getFullYear()
+            // Verificar se há um departamento selecionado
+            const selectedDepartments = departamentos.filter(dept => document.getElementById(dept.id).checked);
+            if (selectedDepartments.length === 0) {
+                alert('Por favor, selecione pelo menos um departamento.');
+                return;
+            }
+
+            // Validar a soma das porcentagens
+            let totalPercent = 0;
+            selectedDepartments.forEach(dept => {
+                const perc = parseFloat(document.getElementById(dept.percId).value) || 0;
+                totalPercent += perc;
+            });
+            if (totalPercent !== 100) {
+                alert('A soma das porcentagens deve ser igual a 100%.');
+                return;
+            }
+
+            document.getElementById('comprador_print').innerText = comprador;
+            document.getElementById('itens_print').innerText = itens;
+            document.getElementById('valor_print').innerText = 'R$ ' + valor.toFixed(2);
+            document.getElementById('data_print').innerText = dataAtual();
+
+            // Mostrar imagens ou links de PDF
+            const orcamentoPrint = document.getElementById('orcamento_print');
+            orcamentoPrint.innerHTML = '';
+            Array.from(orcamento).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    if (file.type.startsWith('image/')) {
+                        const img = document.createElement('div');
+                        img.className = 'img-preview';
+                        img.innerHTML = `<img src="${e.target.result}" alt="${file.name}">`;
+                        orcamentoPrint.appendChild(img);
+                    } else if (file.type === 'application/pdf') {
+                        const link = document.createElement('div');
+                        link.className = 'pdf-preview';
+                        link.innerHTML = `<a href="${e.target.result}" target="_blank">${file.name}</a>`;
+                        orcamentoPrint.appendChild(link);
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // Calcular rateio
+            const rateioPrint = document.getElementById('rateio_print');
+            rateioPrint.innerHTML = '';
+            selectedDepartments.forEach(dept => {
+                const percInput = document.getElementById(dept.percId);
+                const perc = parseFloat(percInput.value) || 0;
+                const rateio = valor * (perc / 100);
+                rateioPrint.innerHTML += `
+                    <p><strong>${dept.name}:</strong> R$ ${rateio.toFixed(2)}
+                        <br>
+                        <div class="approval-options">
+                            <label><input type="checkbox" name="${dept.name}_approval" value="aprovada"> Aprovada</label>
+                            <label><input type="checkbox" name="${dept.name}_approval" value="desaprovada"> Desaprovada</label>
+                        </div>
+                    </p>
+                `;
+            });
+
+            document.getElementById('print').style.display = 'block';
+
+            // Aguardar um pouco para garantir que o conteúdo foi exibido corretamente
+            setTimeout(() => {
+                window.print();
+                document.getElementById('print').style.display = 'none'; // Esconder o conteúdo de impressão após a impressão
+            }, 500);
         }
-    }</script>
 
+        function dataAtual() {
+            const data = new Date();
+            return `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`;
+        }
+    </script>
 </body>
 </html>
